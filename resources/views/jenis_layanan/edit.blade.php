@@ -32,7 +32,7 @@
 
                     <div class="mb-3">
                         <label for="harga" class="form-label">Harga</label>
-                        <input type="text" name="harga" value="{{ formatRupiah($layanan->harga) }}" required>
+                        <input type="text"class="form-control" name="harga" value="{{ formatRupiah($jenisLayanan->harga) }}" required>
 
                     </div>
 

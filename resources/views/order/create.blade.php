@@ -29,7 +29,7 @@
             </select>
         </div>
         <label for="jenis_layanan">Jenis Layanan:</label>
-        <select name="jenis_layanan_id" id="jenis_layanan" required>
+        <select class="form-control"  name="jenis_layanan_id" id="jenis_layanan" required>
             @foreach ($jenisLayanan as $layanan)
                 <option value="{{ $layanan->id }}" data-harga="{{ $layanan->harga }}">
                     {{ $layanan->nama_layanan }} - Rp {{ number_format($layanan->harga, 0, ',', '.') }}
@@ -40,7 +40,7 @@
         <br>
         
         <label for="jumlah">Jumlah (kg):</label>
-        <select name="jumlah" id="jumlah" required>
+        <select class="form-control"  name="jumlah" id="jumlah" required>
             @for ($i = 1; $i <= 10; $i++)
                 <option value="{{ $i }}">{{ $i }} kg</option>
             @endfor
