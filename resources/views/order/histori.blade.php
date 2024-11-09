@@ -48,7 +48,6 @@
                             <td>{{ $order->id }}</td>
                             <td>{{ $order->no_transaksi }}</td>
                             <td>{{ $order->konsumen->nama }}</td>
-                            <td>{{ $order->officer->nama }}</td>
                             <td>{{ $order->jenisLayanan->nama_layanan }}</td>
                             <td>{{ $order->jenisPembayaran->nama_pembayaran }}</td>
                             <td>{{ $order->jumlah }}</td>

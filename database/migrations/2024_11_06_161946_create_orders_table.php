@@ -10,7 +10,6 @@ return new class extends Migration {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('konsumen_id')->constrained('konsumens')->onDelete('cascade');
-            $table->foreignId('officer_id')->constrained('officers')->onDelete('cascade');
             $table->foreignId('jenis_layanan_id')->constrained('jenis_layanan')->onDelete('cascade');
             $table->foreignId('jenis_pembayaran_id')->constrained('jenis_pembayaran')->onDelete('cascade');
             $table->integer('jumlah');

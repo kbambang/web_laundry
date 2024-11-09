@@ -5,11 +5,14 @@ use App\Http\Controllers\SesiController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\LaporanController;
-use App\Http\Controllers\OfficerController;
 use App\Http\Controllers\KonsumenController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JenisLayananController;
 use App\Http\Controllers\JenisPembayaranController;
+use App\Http\Controllers\OfficerController;
+
+Route::resource('officers', OfficerController::class);
+
 
 
 Route::get('/laporan/export-pdf', [LaporanController::class, 'exportPdf'])->name('laporan.exportPdf');
@@ -34,8 +37,6 @@ Route::resource('jenis_layanan', JenisLayananController::class)->middleware('use
 
 // Konsumen dan Petugas
 Route::resource('konsumens', KonsumenController::class)->middleware('userAkses:admin,petugas');
-
-Route::resource('officers', OfficerController::class)->middleware('userAkses:admin');
 
 // Route untuk pengguna tamu (belum login)
 Route::middleware(['guest'])->group(function () {

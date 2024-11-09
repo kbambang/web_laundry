@@ -1,100 +1,66 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\Officer;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OfficerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $officers = Officer::all();
+        $officers = User::where('role', 'petugas')->get(); // Mengambil semua petugas
         return view('officers.index', compact('officers'));
     }
-    
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('officers.create');
     }
-    
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-
-
         $request->validate([
-            'nama' => 'required',
-            'position' => 'required',
-            'email' => 'required|email|unique:officers',
-            'phone' => 'nullable',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6|confirmed',
         ]);
-    
-        Officer::create($request->all());
-    
-        return redirect()->route('officers.index')
-                        ->with('success', 'Officer created successfully.');
-    }
-    
 
-    /**
-     * Display the specified resource.
-     */
-    public function show($id)
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'role' => 'petugas',  // Menetapkan role sebagai petugas
+            'password' => bcrypt($request->password),
+        ]);
+
+        return redirect()->route('officers.index')->with('success', 'Petugas berhasil ditambahkan');
+    }
+
+    public function edit(User $officer)
     {
-        $officer = Officer::findOrFail($id);
-        return view('officers.show', compact('officer'));
+        return view('officers.edit', compact('officer'));
     }
-    
-    /**
-     * Show the form for editing the specified resource.
-     */public function edit($id)
-{
-    $officer = Officer::findOrFail($id);
-    return view('officers.edit', compact('officer'));
-}
 
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $officer)
     {
         $request->validate([
-            'nama' => 'required',
-            'position' => 'required',
-            'email' => 'required|email|unique:officers,email,' . $id,
-            'phone' => 'nullable',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $officer->id,
+            'password' => 'nullable|string|min:6|confirmed',
         ]);
-    
-        $officer = Officer::findOrFail($id);
-        $officer->update($request->all());
-    
-        return redirect()->route('officers.index')
-                        ->with('success', 'Officer updated successfully.');
-    }
-    
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
+        $officer->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password ? bcrypt($request->password) : $officer->password,
+        ]);
+
+        return redirect()->route('officers.index')->with('success', 'Data petugas berhasil diperbarui');
+    }
+
+    public function destroy(User $officer)
     {
-        $officer = Officer::findOrFail($id);
         $officer->delete();
-    
-        return redirect()->route('officers.index')
-                        ->with('success', 'Officer deleted successfully.');
+        return redirect()->route('officers.index')->with('success', 'Petugas berhasil dihapus');
     }
-    
 }
+

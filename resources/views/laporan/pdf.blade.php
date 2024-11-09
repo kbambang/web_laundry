@@ -46,7 +46,7 @@
                 <tr>
                     <td>{{ $order->no_transaksi }}</td>
                     <td>{{ $order->konsumen->nama }}</td>
-                    <td>{{ $order->officer->nama }}</td>
+                
                     <td>{{ $order->jenisLayanan->nama_layanan }}</td>
                     <td>Rp {{ number_format($order->total_harga, 0, ',', '.') }}</td>
                     <td>{{ $order->jenisPembayaran->nama }}</td>

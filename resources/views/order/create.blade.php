@@ -12,14 +12,7 @@
                 @endforeach
             </select>
         </div>
-        <div class="mb-3">
-            <label for="officer_id" class="form-label">Petugas</label>
-            <select class="form-control" name="officer_id" id="officer_id" required>
-                @foreach($officers as $p)
-                    <option value="{{ $p->id }}">{{ $p->nama }}</option>
-                @endforeach
-            </select>
-        </div>
+
         <div class="mb-3">
             <label for="jenis_pembayaran_id" class="form-label">Jenis Pembayaran</label>
             <select class="form-control" name="jenis_pembayaran_id" id="jenis_pembayaran_id" required>

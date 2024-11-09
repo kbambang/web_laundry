@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use App\Models\Officer;
 use App\Models\Konsumen;
 use App\Models\JenisLayanan;
 use Illuminate\Http\Request;
@@ -18,7 +17,7 @@ class LaporanController extends Controller
     public function index(Request $request)
     {
         // Menyaring berdasarkan tanggal jika ada
-        $orders = Order::with(['konsumen', 'officer', 'jenisLayanan', 'jenisPembayaran'])
+        $orders = Order::with(['konsumen', 'jenisLayanan', 'jenisPembayaran'])
             ->when($request->start_date, function ($query) use ($request) {
                 return $query->whereDate('created_at', '>=', $request->start_date);
             })
@@ -38,7 +37,7 @@ class LaporanController extends Controller
     public function exportPdf(Request $request)
     {
         // Menyaring berdasarkan tanggal jika ada
-        $orders = Order::with(['konsumen', 'officer', 'jenisLayanan', 'jenisPembayaran'])
+        $orders = Order::with(['konsumen', 'jenisLayanan', 'jenisPembayaran'])
             ->when($request->start_date, function ($query) use ($request) {
                 return $query->whereDate('created_at', '>=', $request->start_date);
             })

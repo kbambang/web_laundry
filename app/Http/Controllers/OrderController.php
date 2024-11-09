@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use App\Models\Officer;
 use App\Models\Konsumen;
 use App\Models\JenisLayanan;
 use Illuminate\Http\Request;
@@ -17,7 +16,7 @@ class OrderController extends Controller
     $search = $request->input('search');
 
     // Query dasar dengan relasi
-    $query = Order::with(['konsumen', 'officer', 'jenisLayanan', 'jenisPembayaran']);
+    $query = Order::with(['konsumen','jenisLayanan', 'jenisPembayaran']);
 
     // Jika ada input pencarian, tambahkan kondisi pencarian hanya pada kolom no_transaksi
     if ($search) {
@@ -35,18 +34,16 @@ class OrderController extends Controller
     public function create()
     {
         $konsumens = Konsumen::all();
-        $officers = Officer::all();
         $jenisLayanan = JenisLayanan::all();
         $jenisPembayaran = JenisPembayaran::all();
 
-        return view('order.create', compact('konsumens', 'officers', 'jenisLayanan', 'jenisPembayaran'));
+        return view('order.create', compact('konsumens','jenisLayanan', 'jenisPembayaran'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'konsumen_id' => 'required|exists:konsumens,id',
-            'officer_id' => 'required|exists:officers,id',
             'jenis_layanan_id' => 'required|exists:jenis_layanan,id',
             'jenis_pembayaran_id' => 'required|exists:jenis_pembayaran,id',
             'jumlah' => 'required|in:1,2,3,4,5,6,7,8,9,10',
@@ -81,7 +78,6 @@ class OrderController extends Controller
     {
         $request->validate([
             'konsumen_id' => 'required|exists:konsumen,id',
-            'officer_id' => 'required|exists:officer,id',
             'jenis_layanan_id' => 'required|exists:jenis_layanan,id',
             'jenis_pembayaran_id' => 'required|exists:jenis_pembayaran,id',
             'jumlah' => 'required|integer|min:1',
@@ -101,7 +97,7 @@ class OrderController extends Controller
     public function histori()
     {
         // Mengambil semua order yang statusnya sudah selesai atau belum
-        $orders = Order::with(['konsumen', 'officer', 'jenisLayanan', 'jenisPembayaran'])
+        $orders = Order::with(['konsumen', 'jenisLayanan', 'jenisPembayaran'])
             ->where('status', 'completed')
             ->orWhere('status', 'pending')
             ->get();

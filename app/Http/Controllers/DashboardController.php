@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Order;
-use App\Models\Officer;
 use App\Models\Konsumen;
 use App\Models\JenisLayanan;
 use Illuminate\Http\Request;
@@ -15,7 +14,6 @@ class DashboardController extends Controller
     {
         // Menghitung total data
         $totalKonsumen = Konsumen::count();
-        $totalOfficer = Officer::count();
         $totalJenisLayanan = JenisLayanan::count();
         $totalPendapatan = Order::where('status', 'completed')->sum('total_harga');
         $totalOrder = Order::count();
@@ -34,7 +32,7 @@ class DashboardController extends Controller
 
         return view('dashboard.index', compact(
             'totalKonsumen',
-            'totalOfficer',
+
             'totalJenisLayanan',
             'totalPendapatan',
             'totalOrder',

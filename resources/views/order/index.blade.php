@@ -47,7 +47,7 @@
                             <td>{{ $order->id }}</td>
                             <td>{{ $order->no_transaksi }}</td>
                             <td>{{ $order->konsumen->nama }}</td>
-                            <td>{{ $order->officer->nama }}</td>
+                           
                             <td>{{ optional($order->jenisLayanan)->nama_layanan ?? 'Tidak tersedia' }}</td>
                             <td>{{ $order->jenisPembayaran->nama_pembayaran }}</td>
                             <td>{{ $order->jumlah }}</td>

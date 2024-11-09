@@ -24,7 +24,6 @@ class Order extends Model
     protected $fillable = [
         'konsumen_id',
         'no_transaksi', 
-        'officer_id',
         'jenis_layanan_id',
         'jenis_pembayaran_id',
         'jumlah',
@@ -39,10 +38,6 @@ class Order extends Model
     }
 
     // Relasi ke Petugas
-    public function officer()
-    {
-        return $this->belongsTo(Officer::class);
-    }
 
     // Relasi ke Jenis Layanan
     public function jenisLayanan()

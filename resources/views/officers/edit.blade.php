@@ -1,57 +1,59 @@
-<!-- resources/views/officers/edit.blade.php -->
 @extends('layouts.master')
 
-@section('title', 'Edit Officer')
+@section('title', 'Edit Petugas')
 
 @section('breadcrumb')
     <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="{{ route('officers.index') }}">Data Officers</a></li>
-    <li class="active">Edit Officer</li>
+    <li><a href="{{ route('officers.index') }}">Data Petugas</a></li>
+    <li class="active">Edit Petugas</li>
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        <h2>Edit Officer</h2>
 
-        <!-- Pesan Error -->
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        <!-- Judul Halaman -->
+        <h1>Edit Petugas</h1>
 
-        <!-- Form Edit Officer -->
+        <!-- Form Edit Petugas -->
         <form action="{{ route('officers.update', $officer->id) }}" method="POST">
             @csrf
             @method('PUT')
 
-            <div class="form-group mb-3">
-                <label for="nama">Nama</label>
-                <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $officer->nama) }}" required>
+            <!-- Input Nama -->
+            <div class="mb-3">
+                <label for="name" class="form-label">Nama</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $officer->name) }}" required>
+                @error('name')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
 
-            <div class="form-group mb-3">
-                <label for="position">Position</label>
-                <input type="text" class="form-control" id="position" name="position" value="{{ old('position', $officer->position) }}" required>
-            </div>
-
-            <div class="form-group mb-3">
-                <label for="email">Email</label>
+            <!-- Input Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $officer->email) }}" required>
+                @error('email')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
 
-            <div class="form-group mb-3">
-                <label for="phone">Phone</label>
-                <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone', $officer->phone) }}">
+            <!-- Input Password (opsional) -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Kosongkan jika tidak ingin mengubah password">
+                @error('password')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
 
-            <!-- Tombol Simpan dan Kembali -->
-            <button type="submit" class="btn btn-primary">Update</button>
-            <a href="{{ route('officers.index') }}" class="btn btn-secondary">Back to List</a>
+            <!-- Konfirmasi Password -->
+            <div class="mb-3">
+                <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
+                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Kosongkan jika tidak ingin mengubah password">
+            </div>
+
+            <!-- Tombol Simpan -->
+            <button type="submit" class="btn btn-primary">Simpan</button>
         </form>
     </div>
 @endsection
