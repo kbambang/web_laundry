@@ -37,7 +37,7 @@ class Order extends Model
         return $this->belongsTo(Konsumen::class);
     }
 
-    // Relasi ke Petugas
+   
 
     // Relasi ke Jenis Layanan
     public function jenisLayanan()

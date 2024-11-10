@@ -35,10 +35,8 @@
             <tr>
                 <th>No Transaksi</th>
                 <th>Konsumen</th>
-                <th>Petugas</th>
                 <th>Jenis Layanan</th>
                 <th>Total Harga</th>
-                <th>Status Pembayaran</th>
             </tr>
         </thead>
         <tbody>

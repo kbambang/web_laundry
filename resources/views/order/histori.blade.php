@@ -32,7 +32,7 @@
                         <th scope="col">ID</th>
                         <th>No Transaksi</th>
                         <th scope="col">Konsumen</th>
-                        <th scope="col">Petugas</th>
+                  
                         <th scope="col">Jenis Layanan</th>
                         <th scope="col">Jenis Pembayaran</th>
                         <th scope="col">Jumlah</th>

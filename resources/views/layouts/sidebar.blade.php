@@ -38,7 +38,7 @@
                     <i class="bi bi-truck"></i> <span>Layanan</span>
                 </a>
             </li>
-            <li class="header">MASTER</li>
+            <li class="header">Transaksi</li>
             <li>
                 <a href="{{ route('jenis_pembayaran.index') }}">
                     <i class="bi bi-wallet2"></i> <span>Pembayaran</span>
@@ -54,13 +54,13 @@
                     <i class="bi bi-clock-history"></i> <span>Histori Order</span>
                 </a>
             </li>
-            <li class="header">MASTER</li>
+            <li class="header">Laporan</li>
             <li>
                 <a href="{{ route('laporan.transaksi') }}">
                     <i class="bi bi-file-earmark-text"></i> <span>Laporan</span>
                 </a>
             </li>
-            <li class="header">MASTER</li>
+            <li class="header">Akun</li>
             <li>
                 <a href="/logout" class="bi bi-box-arrow-right"> <span>Logout &gt;&gt;</span> </a>
             </li>            
