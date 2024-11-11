@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+// Mengimpor model dan package yang dibutuhkan
 use App\Models\Order;
 use App\Models\Konsumen;
 use App\Models\JenisLayanan;
@@ -11,32 +12,36 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\LaporanTransaksiExport;
 
+// Definisi class LaporanController untuk mengelola laporan transaksi
 class LaporanController extends Controller
 {
-    // Menampilkan laporan transaksi
+    // Fungsi index untuk menampilkan laporan transaksi
     public function index(Request $request)
     {
-        // Menyaring berdasarkan tanggal jika ada
+        // Mendapatkan data transaksi (orders) dari model Order dan relasi terkait
         $orders = Order::with(['konsumen', 'jenisLayanan', 'jenisPembayaran'])
+            // Memfilter data berdasarkan tanggal mulai (start_date) jika ada
             ->when($request->start_date, function ($query) use ($request) {
                 return $query->whereDate('created_at', '>=', $request->start_date);
             })
+            // Memfilter data berdasarkan tanggal akhir (end_date) jika ada
             ->when($request->end_date, function ($query) use ($request) {
                 return $query->whereDate('created_at', '<=', $request->end_date);
             })
+            // Mendapatkan semua data yang sesuai
             ->get();
 
-        // Hitung total pendapatan dari semua transaksi
+        // Menghitung total pendapatan dari semua transaksi yang diambil
         $totalPendapatan = $orders->sum('total_harga');
 
-        // Kirimkan data orders dan totalPendapatan ke view
+        // Mengirim data 'orders' dan 'totalPendapatan' ke view laporan.transaksi
         return view('laporan.transaksi', compact('orders', 'totalPendapatan'));
     }
 
-    // // Fungsi untuk export ke PDF
+    // Fungsi untuk mengekspor laporan transaksi ke dalam format PDF
     public function exportPdf(Request $request)
     {
-        // Menyaring berdasarkan tanggal jika ada
+        // Mengambil data transaksi (orders) dengan filter berdasarkan tanggal jika ada
         $orders = Order::with(['konsumen', 'jenisLayanan', 'jenisPembayaran'])
             ->when($request->start_date, function ($query) use ($request) {
                 return $query->whereDate('created_at', '>=', $request->start_date);
@@ -46,13 +51,13 @@ class LaporanController extends Controller
             })
             ->get();
 
-        // Hitung total pendapatan dari semua transaksi
+        // Menghitung total pendapatan dari transaksi yang diambil
         $totalPendapatan = $orders->sum('total_harga');
 
-        // Load view dan generate PDF
+        // Membuat PDF dengan tampilan dari view laporan.pdf dan data 'orders' serta 'totalPendapatan'
         $pdf = Pdf::loadView('laporan.pdf', compact('orders', 'totalPendapatan'));
 
-        // Download file PDF
+        // Mendownload file PDF dengan nama 'laporan_transaksi.pdf'
         return $pdf->download('laporan_transaksi.pdf');
     }
 }

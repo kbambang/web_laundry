@@ -4,7 +4,7 @@
 
 @section('breadcrumb')
     <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Dashboard {{  Auth::user()->name }}</li>
+    <li class="active">Dashboard</li>
 @endsection
 
 @section('content')
@@ -12,58 +12,75 @@
         
 
         <!-- Ringkasan Data -->
-        <div class="row g-4">
-            <div class="col-md-3">
-                <div class="card shadow-sm border-0 text-center h-100">
-                    <div class="card-body">
-                        <h5 class="card-title text-primary">Total Konsumen</h5> 
-                        {{-- <p class="card-text display-6">{{ $totalKonsumen }}</p> --}}
-                    </div>
-                </div>
+       <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+              <div class="inner">
+              {{-- <h3>{{ $totalKonsumen }}</h3> --}}
+  
+                <p>Total konsumen</p>
+              </div> 
+              <div class="icon">
+                {{-- <i class="fa fa-cube"></i> --}}
+              </div>
+              <a href="{{ route('konsumens.index') }}" class="small-box-footer">lihat <i class="fa fa-arrow-circle-right"></i></a>
             </div>
-            <div class="col-md-3">
-                <div class="card shadow-sm border-0 text-center h-100">
-                    <div class="card-body">
-                        <h5 class="card-title text-success">Total Petugas</h5> 
-                        {{-- <p class="card-text display-6">{{ $totalPetugas }}</p> --}}
-                    </div>
-                </div>
+            
+       </div>
+       <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+              <div class="inner">
+                {{-- <h3>{{ $totalJenisLayanan }}</h3> --}}
+  
+                <p>Total Layanan</p>
+              </div>
+              <div class="icon">
+                {{-- <i class="fa fa-cube"></i> --}}
+              </div>
+              <a href="{{ route('konsumens.index') }}" class="small-box-footer">lihat <i class="fa fa-arrow-circle-right"></i></a>
             </div>
-            <div class="col-md-3">
-                <div class="card shadow-sm border-0 text-center h-100">
-                    <div class="card-body">
-                        <h5 class="card-title text-warning">Total Layanan</h5>
-                        {{-- <p class="card-text display-6">{{ $totalJenisLayanan }}</p> --}}
-                     </div>
-                </div>
+            
+       </div>
+       <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+              <div class="inner">
+                {{-- <h3>{{ $totalJenisPembayaran   }}</h3> --}}
+  
+                <p>Total Pembayaran</p>
+              </div>
+              <div class="icon">
+                {{-- <i class="fa fa-cube"></i> --}}
+              </div>
+              <a href="{{ route('konsumens.index') }}" class="small-box-footer">lihat <i class="fa fa-arrow-circle-right"></i></a>
             </div>
-            <div class="col-md-3">
-                <div class="card shadow-sm border-0 text-center h-100">
-                    <div class="card-body">
-                        <h5 class="card-title text-danger">Total Pendapatan</h5> 
-                        {{-- <p class="card-text display-6">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</p> --}}
-                     </div>
-                </div>
+            
+       </div>
+       <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+              <div class="inner">
+                {{-- <h3>{{ $totalOfficers }}</h3> --}}
+  
+                <p>Total Petugas</p>
+              </div>
+              <div class="icon">
+                {{-- <i class="fa fa-cube"></i> --}}
+              </div>
+              <a href="{{ route('konsumens.index') }}" class="small-box-footer">lihat <i class="fa fa-arrow-circle-right"></i></a>
             </div>
-            <div class="col-md-3 mt-3">
-                <div class="card shadow-sm border-0 text-center h-100">
-                    <div class="card-body">
-                        <h5 class="card-title text-info">Total Order</h5> 
-                         {{-- <p class="card-text display-6">{{ $totalOrder }}</p>  --}}
-                     </div>
-                </div>
-            </div>
-        </div> 
+            
+       </div>
+       
+          
 
         <!-- Grafik Transaksi Bulanan -->
-         <div class="mt-5">
-            <h2 class="mb-4 text-center">Transaksi Bulanan</h2>
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
-                    <canvas id="transaksiChart" style="height:400px;"></canvas>
-                </div>
-            </div>
-        </div>
+         
     </div> 
 @endsection
 

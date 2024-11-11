@@ -10,72 +10,67 @@ use App\Models\JenisPembayaran;
 
 class OrderController extends Controller
 {
+    // Fungsi index untuk menampilkan daftar pesanan dengan fitur pencarian berdasarkan nomor transaksi
     public function index(Request $request)
-{
-    // Ambil input pencarian dari request
-    $search = $request->input('search');
+    {
+        $search = $request->input('search'); // Mengambil input pencarian
+        $query = Order::with(['konsumen', 'jenisLayanan', 'jenisPembayaran']); // Query dasar dengan relasi
 
-    // Query dasar dengan relasi
-    $query = Order::with(['konsumen','jenisLayanan', 'jenisPembayaran']);
+        // Jika ada input pencarian, tambahkan kondisi pencarian pada kolom no_transaksi
+        if ($search) {
+            $query->where('no_transaksi', 'like', '%' . $search . '%');
+        }
 
-    // Jika ada input pencarian, tambahkan kondisi pencarian hanya pada kolom no_transaksi
-    if ($search) {
-        $query->where('no_transaksi', 'like', '%' . $search . '%');
+        $orders = $query->get(); // Menjalankan query dan mendapatkan hasil
+        return view('order.index', compact('orders', 'search')); // Mengirim data ke view
     }
 
-    // Jalankan query dan ambil hasil
-    $orders = $query->get();
-
-    // Kembalikan view dengan hasil pencarian
-    return view('order.index', compact('orders', 'search'));
-}
-
-
+    // Fungsi create untuk menampilkan form penambahan pesanan
     public function create()
     {
+        // Mengambil data konsumens, jenis layanan, dan jenis pembayaran untuk pilihan form
         $konsumens = Konsumen::all();
         $jenisLayanan = JenisLayanan::all();
         $jenisPembayaran = JenisPembayaran::all();
 
-        return view('order.create', compact('konsumens','jenisLayanan', 'jenisPembayaran'));
+        return view('order.create', compact('konsumens', 'jenisLayanan', 'jenisPembayaran'));
     }
 
+    // Fungsi store untuk menyimpan data pesanan baru
     public function store(Request $request)
     {
+        // Validasi input
         $request->validate([
             'konsumen_id' => 'required|exists:konsumens,id',
             'jenis_layanan_id' => 'required|exists:jenis_layanan,id',
             'jenis_pembayaran_id' => 'required|exists:jenis_pembayaran,id',
             'jumlah' => 'required|in:1,2,3,4,5,6,7,8,9,10',
         ]);
-    
-        // Hitung total_harga
+
+        // Menghitung total_harga berdasarkan jumlah dan harga layanan
         $jenisLayanan = JenisLayanan::findOrFail($request->jenis_layanan_id);
         $totalHarga = ($request->jumlah * 10000) + $jenisLayanan->harga;
-    
-        // Gabungkan data request dengan nilai total_harga
+
+        // Menambahkan data tambahan ke dalam request, yaitu no_transaksi dan total_harga
         $data = $request->all();
-        $data['no_transaksi'] = 'TRX' . time() . rand(1000, 9999); // Menambahkan no_transaksi
-        $data['total_harga'] = $totalHarga; // Menambahkan total_harga
-    
-        // Simpan data order ke database
+        $data['no_transaksi'] = 'TRX' . time() . rand(1000, 9999); // Nomor transaksi unik
+        $data['total_harga'] = $totalHarga;
+
+        // Simpan data pesanan ke database
         Order::create($data);
-    
         return redirect()->route('orders.index')->with('success', 'Order berhasil ditambahkan.');
     }
-    
 
-    
-
+    // Fungsi show untuk menampilkan detail pesanan
     public function show(Order $order)
     {
         return view('order.show', compact('order'));
     }
 
-    
-
+    // Fungsi update untuk memperbarui data pesanan
     public function update(Request $request, Order $order)
     {
+        // Validasi input data
         $request->validate([
             'konsumen_id' => 'required|exists:konsumen,id',
             'jenis_layanan_id' => 'required|exists:jenis_layanan,id',
@@ -84,19 +79,22 @@ class OrderController extends Controller
             'total_harga' => 'required|numeric',
         ]);
 
+        // Update data pesanan di database
         $order->update($request->all());
         return redirect()->route('orders.index')->with('success', 'Order berhasil diupdate.');
     }
 
+    // Fungsi destroy untuk menghapus pesanan
     public function destroy(Order $order)
     {
         $order->delete();
         return redirect()->route('orders.index')->with('success', 'Order berhasil dihapus.');
     }
 
+    // Fungsi histori untuk menampilkan riwayat pesanan yang sudah selesai atau belum
     public function histori()
     {
-        // Mengambil semua order yang statusnya sudah selesai atau belum
+        // Mengambil semua pesanan yang berstatus completed atau pending
         $orders = Order::with(['konsumen', 'jenisLayanan', 'jenisPembayaran'])
             ->where('status', 'completed')
             ->orWhere('status', 'pending')
@@ -105,10 +103,10 @@ class OrderController extends Controller
         return view('order.histori', compact('orders'));
     }
 
-
+    // Fungsi complete untuk menandai pesanan sebagai selesai
     public function complete(Order $order)
     {
-        // Cek jika status order belum selesai
+        // Cek jika status pesanan belum completed
         if ($order->status !== 'completed') {
             $order->status = 'completed';
             $order->save();

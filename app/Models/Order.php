@@ -28,7 +28,8 @@ class Order extends Model
         'jenis_pembayaran_id',
         'jumlah',
         'total_harga',
-        'status'
+        'status',
+        'status_pemganbilan'
     ];
 
     // Relasi ke Konsumen
